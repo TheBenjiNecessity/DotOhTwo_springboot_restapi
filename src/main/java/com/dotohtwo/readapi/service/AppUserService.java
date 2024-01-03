@@ -25,4 +25,8 @@ public class AppUserService {
     public Optional<AppUser> getUserByUserame(String username) {
         return appUserRepository.findByUsername(username);
     }
+
+    public void createUser(AppUser user) {
+        appUserRepository.save(user);
+    }
 }

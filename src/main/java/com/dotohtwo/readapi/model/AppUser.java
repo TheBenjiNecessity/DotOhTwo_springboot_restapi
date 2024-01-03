@@ -1,5 +1,6 @@
 package com.dotohtwo.readapi.model;
  
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -11,12 +12,13 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(insertable = false)
+    public Date joined;
  
     public String email;
     public String phone;
-
     public Date DOB;
-    public Date joined;
 
     private String username;
 

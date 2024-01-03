@@ -38,6 +38,10 @@ public class AppUser {
         return roles;
     }
 
+    public void setValuesForNewUser() {
+        this.roles = "USER";
+    }
+
     public String toString() {
         return String.format("App User: email: %s", this.email);
     }

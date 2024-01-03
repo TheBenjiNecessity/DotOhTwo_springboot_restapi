@@ -75,7 +75,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/favicon.ico").permitAll();
                     auth.anyRequest().authenticated();
                 })
-                //.userDetailsService(jpaUserDetailsService)
+                .userDetailsService(jpaUserDetailsService)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(auth -> auth.jwt(jwt -> jwt.decoder(jwtDecoder())))
                 .build();

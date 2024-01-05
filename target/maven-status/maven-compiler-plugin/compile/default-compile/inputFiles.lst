@@ -1,3 +1,4 @@
+/Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/model/appUser/AppUserSettings.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/model/SecurityUser.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/detailService/JpaUserDetailsService.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/auth/SecurityConfig.java

@@ -6,7 +6,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.util.Date;
- 
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import com.dotohtwo.readapi.model.appUser.AppUserSettings;
+
 @Entity
 public class AppUser {
     @Id
@@ -25,6 +30,9 @@ public class AppUser {
     private String password;
     private String roles;
     // private String salt;
+
+    @JdbcTypeCode(value = SqlTypes.JSON)
+    public AppUserSettings settings;
 
     public String getPassword() {
         return password;

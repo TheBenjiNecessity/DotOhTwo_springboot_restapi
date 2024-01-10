@@ -16,19 +16,19 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
        
-    public List<Review> getAllReviews() {
+    public List<Review> getAll() {
         return reviewRepository.findAll();// needs paging
     }
 
-    public Optional<Review> getReview(Long id) {
+    public Optional<Review> get(Long id) {
         return reviewRepository.findById(id);
     }
 
-    public void createReview(Review review) {
+    public void create(Review review) {
         reviewRepository.save(review);
     }
 
-    public void updateReview(Long id, Review reviewDTO) { // What kind of update? just one field?
+    public void update(Long id, Review reviewDTO) { // What kind of update? just one field?
         Review daoReview = reviewRepository.findById(id).map(Review -> {
             Review.comment = reviewDTO.comment;
             Review.rating = reviewDTO.rating;
@@ -43,5 +43,9 @@ public class ReviewService {
         });
 
         reviewRepository.save(daoReview);
+    }
+
+    public void delete(Long id) {
+        reviewRepository.deleteById(id);
     }
 }

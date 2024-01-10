@@ -16,19 +16,19 @@ public class ReviewableService {
     @Autowired
     private ReviewableRepository reviewableRepository;
        
-    public List<Reviewable> getAllReviewables() {
+    public List<Reviewable> getAll() {
         return reviewableRepository.findAll();// needs paging
     }
 
-    public Optional<Reviewable> getReviewable(Long id) {
+    public Optional<Reviewable> get(Long id) {
         return reviewableRepository.findById(id);
     }
 
-    public void createReviewable(Reviewable reviewable) {
+    public void create(Reviewable reviewable) {
         reviewableRepository.save(reviewable);
     }
 
-    public void updateReviewable(Long id, Reviewable reviewableDTO) { // What kind of update? just one field?
+    public void update(Long id, Reviewable reviewableDTO) { // What kind of update? just one field?
         Reviewable daoReviewable = reviewableRepository.findById(id).map(reviewable -> {
             reviewable.title = reviewableDTO.title;
             reviewable.description = reviewableDTO.description;

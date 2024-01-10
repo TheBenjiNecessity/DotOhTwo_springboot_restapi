@@ -34,7 +34,7 @@ public class AppUserController {
         // TODO getting a user other than the signed in user should return less data
         String name = username != null ? username : principal.getUser().getUsername();
 
-        return appUserService.getUserByUserame(name).orElseThrow(() -> {
+        return appUserService.getByUserame(name).orElseThrow(() -> {
             return new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "AppUser not found with given username: " + name
             );
@@ -44,22 +44,22 @@ public class AppUserController {
     //@PreAuthorize("hasAuthority('USER')")
     @GetMapping("/list")
     public List<AppUser> listAll() {
-        return appUserService.getAllUsers();
+        return appUserService.getAll();
     }
 
     //@PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public Optional<AppUser> get(@PathVariable("id") String id) {
-        return appUserService.getUser(Long.parseLong(id));
+        return appUserService.get(Long.parseLong(id));
     }
 
     @PostMapping
     public AppUser create(@RequestBody AppUser user) {
         user.setValuesForNewUser();
-        appUserService.createUser(user);
+        appUserService.create(user);
 
         String username = user.getUsername();
-        return appUserService.getUserByUserame(username).orElseThrow(() -> {
+        return appUserService.getByUserame(username).orElseThrow(() -> {
             return new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
             );
@@ -69,10 +69,10 @@ public class AppUserController {
     //@PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping
     public AppUser update(@RequestBody AppUser user) {
-        appUserService.updateUser(user);
+        appUserService.update(user);
 
         String username = user.getUsername();
-        return appUserService.getUserByUserame(username).orElseThrow(() -> {
+        return appUserService.getByUserame(username).orElseThrow(() -> {
             return new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
             );

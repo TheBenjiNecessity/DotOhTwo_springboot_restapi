@@ -16,23 +16,23 @@ public class AppUserService {
     @Autowired
     private AppUserRepository appUserRepository;
        
-    public List<AppUser> getAllUsers() {
+    public List<AppUser> getAll() {
         return appUserRepository.findAll();// needs paging
     }
 
-    public Optional<AppUser> getUser(Long id) {
+    public Optional<AppUser> get(Long id) {
         return appUserRepository.findById(id);
     }
 
-    public Optional<AppUser> getUserByUserame(String username) {
+    public Optional<AppUser> getByUserame(String username) {
         return appUserRepository.findByUsername(username);
     }
 
-    public void createUser(AppUser user) {
+    public void create(AppUser user) {
         appUserRepository.save(user);
     }
 
-    public void updateUser(AppUser user) { // What kind of update? just one field?
+    public void update(AppUser user) { // What kind of update? just one field?
         String username = user.getUsername();
         AppUser daoUser = appUserRepository.findByUsername(username).map(appUser -> {
             appUser.DOB = user.DOB;

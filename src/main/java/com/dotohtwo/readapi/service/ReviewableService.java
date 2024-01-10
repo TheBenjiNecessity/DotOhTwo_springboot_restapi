@@ -24,11 +24,11 @@ public class ReviewableService {
         return reviewableRepository.findById(id);
     }
 
-    public void create(Reviewable reviewable) {
-        reviewableRepository.save(reviewable);
+    public Reviewable create(Reviewable reviewable) {
+        return reviewableRepository.save(reviewable);
     }
 
-    public void update(Long id, Reviewable reviewableDTO) { // What kind of update? just one field?
+    public Reviewable update(Long id, Reviewable reviewableDTO) { // What kind of update? just one field?
         Reviewable daoReviewable = reviewableRepository.findById(id).map(reviewable -> {
             reviewable.title = reviewableDTO.title;
             reviewable.description = reviewableDTO.description;
@@ -44,5 +44,10 @@ public class ReviewableService {
         });
 
         reviewableRepository.save(daoReviewable);
+        return daoReviewable;
+    }
+
+    public void delete(Long id) {
+        reviewableRepository.deleteById(id);
     }
 }

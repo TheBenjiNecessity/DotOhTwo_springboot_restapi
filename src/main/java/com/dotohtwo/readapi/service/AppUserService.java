@@ -28,11 +28,11 @@ public class AppUserService {
         return appUserRepository.findByUsername(username);
     }
 
-    public void create(AppUser user) {
-        appUserRepository.save(user);
+    public AppUser create(AppUser user) {
+        return appUserRepository.save(user);
     }
 
-    public void update(AppUser user) { // What kind of update? just one field?
+    public AppUser update(AppUser user) { // What kind of update? just one field?
         String username = user.getUsername();
         AppUser daoUser = appUserRepository.findByUsername(username).map(appUser -> {
             appUser.DOB = user.DOB;
@@ -51,5 +51,11 @@ public class AppUserService {
         });
 
         appUserRepository.save(daoUser);
+
+        return daoUser;
+    }
+
+    public void delete(Long id) {
+        appUserRepository.deleteById(id);
     }
 }

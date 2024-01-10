@@ -24,11 +24,11 @@ public class ReviewService {
         return reviewRepository.findById(id);
     }
 
-    public void create(Review review) {
-        reviewRepository.save(review);
+    public Review create(Review review) {
+        return reviewRepository.save(review);
     }
 
-    public void update(Long id, Review reviewDTO) { // What kind of update? just one field?
+    public Review update(Long id, Review reviewDTO) { // What kind of update? just one field?
         Review daoReview = reviewRepository.findById(id).map(Review -> {
             Review.comment = reviewDTO.comment;
             Review.rating = reviewDTO.rating;
@@ -43,6 +43,8 @@ public class ReviewService {
         });
 
         reviewRepository.save(daoReview);
+
+        return daoReview;
     }
 
     public void delete(Long id) {

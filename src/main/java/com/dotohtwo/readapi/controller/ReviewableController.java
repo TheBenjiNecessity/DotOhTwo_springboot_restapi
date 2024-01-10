@@ -15,32 +15,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.dotohtwo.readapi.model.Review;
-import com.dotohtwo.readapi.service.ReviewService;
+import com.dotohtwo.readapi.model.Reviewable;
+import com.dotohtwo.readapi.service.ReviewableService;
 
 @RestController
-@RequestMapping("/review")
-public class ReviewController {
-   @Autowired
-    private ReviewService reviewService;
+@RequestMapping("/reviewable")
+public class ReviewableController {
+    @Autowired
+    private ReviewableService reviewableService;
 
     @GetMapping("/{id}")
-    public Review get(@PathVariable("id") String id) {
-        return reviewService.get(Long.parseLong(id)).orElseThrow(() -> {
+    public Reviewable get(@PathVariable("id") String id) {
+        return reviewableService.get(Long.parseLong(id)).orElseThrow(() -> {
             return new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Review not found with given id: " + id
+                    HttpStatus.NOT_FOUND, "Reviewable not found with given id: " + id
             );
         });
     }
 
     @GetMapping("/list")
-    public List<Review> list(@RequestParam(value = "time") String time) {
-      return reviewService.getAll();
+    public List<Reviewable> list(@RequestParam(value = "time") String time) {
+      return reviewableService.getAll();
     }
 
     @PostMapping("/{id}")
-    public Review post(@RequestBody Review review) {
-        return reviewService.create(review);
+    public Reviewable post(@RequestBody Reviewable reviewable) {
+        return reviewableService.create(reviewable);
     }
 
     // @PatchMapping("/{id}")
@@ -49,13 +49,13 @@ public class ReviewController {
     // }
 
     @PutMapping("/{id}")
-    public Review put(@PathVariable("id") String id, @RequestBody Review review) {
-      return reviewService.update(Long.parseLong(id), review);
+    public Reviewable put(@PathVariable("id") String id, @RequestBody Reviewable reviewable) {
+      return reviewableService.update(Long.parseLong(id), reviewable);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") String id) {
-      reviewService.delete(Long.parseLong(id));
+      reviewableService.delete(Long.parseLong(id));
       // TODO return status?
     }
 }

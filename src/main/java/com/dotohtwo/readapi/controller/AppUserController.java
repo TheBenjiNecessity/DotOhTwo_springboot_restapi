@@ -3,6 +3,7 @@ package com.dotohtwo.readapi.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -63,5 +64,11 @@ public class AppUserController {
     @PutMapping
     public AppUser update(@RequestBody AppUser user) {
         return appUserService.update(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") String id) {
+      appUserService.delete(Long.parseLong(id));
+      // TODO return status?
     }
 }

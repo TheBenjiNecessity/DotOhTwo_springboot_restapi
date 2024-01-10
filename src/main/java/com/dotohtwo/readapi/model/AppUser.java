@@ -1,5 +1,10 @@
 package com.dotohtwo.readapi.model;
  
+import com.dotohtwo.readapi.model.appUser.AppUserContent;
+import com.dotohtwo.readapi.model.appUser.AppUserPreferences;
+import com.dotohtwo.readapi.model.appUser.AppUserSettings;
+import com.dotohtwo.readapi.model.appUser.AppUserStatistics;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -9,8 +14,6 @@ import java.util.Date;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
-import com.dotohtwo.readapi.model.appUser.AppUserSettings;
 
 @Entity
 public class AppUser {
@@ -32,7 +35,16 @@ public class AppUser {
     // private String salt;
 
     @JdbcTypeCode(value = SqlTypes.JSON)
+    public AppUserContent content;
+
+    @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserSettings settings;
+
+    @JdbcTypeCode(value = SqlTypes.JSON)
+    public AppUserPreferences preferences;
+
+    @JdbcTypeCode(value = SqlTypes.JSON)
+    public AppUserStatistics statistics;
 
     public String getPassword() {
         return password;

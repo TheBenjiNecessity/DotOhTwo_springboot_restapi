@@ -25,16 +25,8 @@ public class Review {
     @Column(insertable = false)
     public Date created;
 
-    private String comment;
-    private Integer rating;
-
-    public String getComment() {
-        return comment;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
+    public String comment;
+    public Integer rating;
 
     @JdbcTypeCode(value = SqlTypes.JSON)
     public ReviewContent content;

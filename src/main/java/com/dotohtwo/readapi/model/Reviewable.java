@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+// TODO this should be called a ...DTO
 @Entity
 public class Reviewable {
     @Id
@@ -22,21 +23,9 @@ public class Reviewable {
     // @Column(insertable = false)
     // public Date created; ???
 
-    private String title;
-    private String description;
-    private String type;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getType() {
-        return type;
-    }
+    public String title;
+    public String description;
+    public String type;
 
     @JdbcTypeCode(value = SqlTypes.JSON)
     public ReviewableContent content;

@@ -51,12 +51,25 @@ public class AppUserController {
     @GetMapping("/{id}")
     public Optional<AppUser> get(@PathVariable("id") String id) {
         return appUserService.getUser(Long.parseLong(id));
-    }  
+    }
 
     @PostMapping
     public AppUser create(@RequestBody AppUser user) {
         user.setValuesForNewUser();
         appUserService.createUser(user);
+
+        String username = user.getUsername();
+        return appUserService.getUserByUserame(username).orElseThrow(() -> {
+            return new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
+            );
+        });
+    }
+
+    //@PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping
+    public AppUser update(@RequestBody AppUser user) {
+        appUserService.updateUser(user);
 
         String username = user.getUsername();
         return appUserService.getUserByUserame(username).orElseThrow(() -> {

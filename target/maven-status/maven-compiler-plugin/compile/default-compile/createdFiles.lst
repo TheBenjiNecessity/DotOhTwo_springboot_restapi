@@ -1,5 +1,5 @@
 com/dotohtwo/readapi/controller/ReviewController.class
+com/dotohtwo/readapi/model/appUser/AppUserSettings.class
 com/dotohtwo/readapi/ReadapiApplication.class
 com/dotohtwo/readapi/config/WebMvcConfig.class
-com/dotohtwo/readapi/model/appUser/AppUserSettings.class
 com/dotohtwo/readapi/config/WebMvcConfig$1.class

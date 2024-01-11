@@ -19,14 +19,30 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer user_id;
-    private Integer reviewable_id;
+    private Long userId;
+    private Long reviewableId;
 
     @Column(insertable = false)
-    public Date created;
+    private Date created;
 
     public String comment;
     public Integer rating;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public Long getUserId() {
+        return this.userId;
+    }
+
+    public Long getReviewableId() {
+        return this.reviewableId;
+    }
+
+    public Date getCreated() {
+        return this.created;
+    }
 
     @JdbcTypeCode(value = SqlTypes.JSON)
     public ReviewContent content;

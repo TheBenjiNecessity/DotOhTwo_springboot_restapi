@@ -27,6 +27,10 @@ public class Reviewable {
     public String description;
     public String type;
 
+    public Long getId() {
+        return this.id;
+    }
+
     @JdbcTypeCode(value = SqlTypes.JSON)
     public ReviewableContent content;
 

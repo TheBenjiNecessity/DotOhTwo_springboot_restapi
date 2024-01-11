@@ -46,6 +46,10 @@ public class AppUser {
     @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserStatistics statistics;
 
+    public Long getId() {
+        return this.id;
+    }
+
     public String getPassword() {
         return password;
     }

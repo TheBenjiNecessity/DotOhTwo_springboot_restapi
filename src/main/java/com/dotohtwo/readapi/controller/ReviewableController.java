@@ -35,10 +35,10 @@ public class ReviewableController {
 
     @GetMapping("/list")
     public List<Reviewable> list(@RequestParam(value = "time") String time) {
-      return reviewableService.getAll();
+        return reviewableService.getAll();
     }
 
-    @PostMapping("/{id}")
+    @PostMapping
     public Reviewable post(@RequestBody Reviewable reviewable) {
         return reviewableService.create(reviewable);
     }
@@ -50,12 +50,12 @@ public class ReviewableController {
 
     @PutMapping("/{id}")
     public Reviewable put(@PathVariable("id") String id, @RequestBody Reviewable reviewable) {
-      return reviewableService.update(Long.parseLong(id), reviewable);
+        return reviewableService.update(Long.parseLong(id), reviewable);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") String id) {
-      reviewableService.delete(Long.parseLong(id));
+        reviewableService.delete(Long.parseLong(id));
       // TODO return status?
     }
 }

@@ -1,5 +1,6 @@
 package com.dotohtwo.readapi.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,14 @@ public class ReviewableController {
         });
     }
 
-    @GetMapping("/list")
-    public List<Reviewable> list(@RequestParam(value = "time") String time) {
-        return reviewableService.getAll();
+    @GetMapping("/search")
+    public Collection<Reviewable> search(
+        @RequestParam(value = "text") String searchText,
+        @RequestParam(value = "locale") String locale,
+        @RequestParam(value = "limit") Integer limit,
+        @RequestParam(value = "offset") Integer offset
+    ) {
+        return reviewableService.search(searchText, locale, limit, offset);
     }
 
     @PostMapping

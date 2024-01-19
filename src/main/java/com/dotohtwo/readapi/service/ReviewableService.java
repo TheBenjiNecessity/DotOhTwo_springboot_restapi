@@ -9,6 +9,7 @@ import com.dotohtwo.readapi.model.Reviewable;
 import com.dotohtwo.readapi.repository.ReviewableRepository;
 
 import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,10 @@ public class ReviewableService {
 
     public Optional<Reviewable> get(Long id) {
         return reviewableRepository.findById(id);
+    }
+
+    public Collection<Reviewable> search(String searchText, String locale, Integer limit, Integer offset) {
+        return reviewableRepository.findReviewablesByTitle(searchText, locale, limit, offset);
     }
 
     public Reviewable create(Reviewable reviewable) {

@@ -41,6 +41,7 @@ public class ReviewableController {
         @RequestParam(value = "limit") Integer limit,
         @RequestParam(value = "offset") Integer offset
     ) {
+        // TODO should reviewables return all of their localization data? or just for the locale given?
         return reviewableService.search(searchText, locale, limit, offset);
     }
 

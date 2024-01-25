@@ -35,7 +35,7 @@ public class ReviewController {
 
     @GetMapping("/list")
     public List<Review> list(@RequestParam(value = "time") String time) {
-      return reviewService.getAll();
+        return reviewService.getAll();
     }
 
     @PostMapping("/{id}")
@@ -50,12 +50,13 @@ public class ReviewController {
 
     @PutMapping("/{id}")
     public Review put(@PathVariable("id") String id, @RequestBody Review review) {
-      return reviewService.update(Long.parseLong(id), review);
+        return reviewService.update(Long.parseLong(id), review);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") String id) {
       reviewService.delete(Long.parseLong(id));
-      // TODO return status?
     }
 }
+
+// TODO endpoint to get reviewable for review?

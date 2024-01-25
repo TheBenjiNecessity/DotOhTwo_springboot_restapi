@@ -1,6 +1,6 @@
 package com.dotohtwo.readapi.controller;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,11 +41,14 @@ public class AppUserController {
             );
         });
     }
-       
-    //@PreAuthorize("hasAuthority('USER')")
-    @GetMapping("/list")
-    public List<AppUser> listAll() {
-        return appUserService.getAll();
+
+    @GetMapping("/search")
+    public Collection<AppUser> search(
+        @RequestParam(value = "text") String searchText,
+        @RequestParam(value = "limit") Integer limit,
+        @RequestParam(value = "offset") Integer offset
+    ) {
+        return appUserService.search(searchText, limit, offset);
     }
 
     //@PreAuthorize("hasAuthority('ADMIN')")

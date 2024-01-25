@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.dotohtwo.readapi.model.AppUser;
 import com.dotohtwo.readapi.repository.AppUserRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,10 @@ public class AppUserService {
 
     public Optional<AppUser> getByUserame(String username) {
         return appUserRepository.findByUsername(username);
+    }
+
+    public Collection<AppUser> search(String searchText, Integer limit, Integer offset) {
+        return appUserRepository.findUsersBySearch(searchText, limit, offset);
     }
 
     public AppUser create(AppUser user) {

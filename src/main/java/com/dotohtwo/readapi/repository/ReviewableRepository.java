@@ -20,5 +20,10 @@ public interface ReviewableRepository extends JpaRepository<Reviewable, Long> {
         """,
         nativeQuery = true
     )
-    Collection<Reviewable> findReviewablesByTitle(@Param("text") String searchText, @Param("locale") String locale, @Param("limit") Integer limit, @Param("offset") Integer offset); // TODO performance?
+    Collection<Reviewable> findReviewablesByTitle(
+        @Param("text") String searchText,
+        @Param("locale") String locale,
+        @Param("limit") Integer limit,
+        @Param("offset") Integer offset
+    ); // TODO performance?
 }

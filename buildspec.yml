@@ -1,9 +1,8 @@
 version: 0.2
 
-env:
-    variables:
-        REPOSITORY_URI: "045163258667.dkr.ecr.us-east-1.amazonaws.com/dotohtwo-api"
-        AWS_DEFAULT_REGION: "us-east-1"
+variables: &aws-constants
+    REPOSITORY_URI: "045163258667.dkr.ecr.us-east-1.amazonaws.com/dotohtwo-api"
+    AWS_DEFAULT_REGION: "us-east-1"
 
 phases:
     install:
@@ -14,7 +13,7 @@ phases:
         commands:
             - echo Logging in to Amazon ECR...
             - aws --version
-            - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+            - $(aws ecr get-login --region *aws-constants.AWS_DEFAULT_REGION --no-include-email)
 
     build:
         commands:

@@ -8,8 +8,6 @@ phases:
     install:
         runtime-versions:
             docker: 18
-        commands:
-            - yum install -y docker
 
     pre_build:
         commands:

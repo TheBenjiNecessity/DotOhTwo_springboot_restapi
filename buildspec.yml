@@ -1,9 +1,5 @@
 version: 0.2
 
-variables: &aws-constants
-    REPOSITORY_URI: "045163258667.dkr.ecr.us-east-1.amazonaws.com/dotohtwo-api"
-    AWS_DEFAULT_REGION: "us-east-1"
-
 phases:
     pre_build:
         commands:

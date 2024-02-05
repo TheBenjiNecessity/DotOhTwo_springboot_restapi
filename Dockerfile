@@ -1,4 +1,4 @@
-FROM openjdk:21-rc-jdk
+FROM eclipse-temurin:21
 
 ENV ENVIRONMENT # prod/dev
 
@@ -9,8 +9,6 @@ RUN ./mvnw clean package
 EXPOSE 8080
 
 COPY target/*.jar app.jar
-
-RUN chmod -R 777 /app.jar
 
 ENTRYPOINT ["java","-jar","/app.jar"]
 CMD ["--spring.profiles.active=${ENVIRONMENT}"]

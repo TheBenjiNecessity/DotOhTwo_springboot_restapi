@@ -1,10 +1,8 @@
-FROM eclipse-temurin:21
+FROM eclipse-temurin:21-jdk-alpine
+
+VOLUME /tmp
 
 ENV ENVIRONMENT # prod/dev
-
-COPY ./ ./
-
-RUN ./mvnw clean package
 
 EXPOSE 8080
 

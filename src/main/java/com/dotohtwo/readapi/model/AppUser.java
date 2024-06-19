@@ -1,15 +1,14 @@
 package com.dotohtwo.readapi.model;
  
+import com.dotohtwo.readapi.controller.DTO.AppUserDTO;
 import com.dotohtwo.readapi.model.appUser.AppUserContent;
 import com.dotohtwo.readapi.model.appUser.AppUserPreferences;
 import com.dotohtwo.readapi.model.appUser.AppUserSettings;
 import com.dotohtwo.readapi.model.appUser.AppUserStatistics;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
@@ -17,13 +16,10 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-@Entity
-public class AppUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+public class AppUser implements Serializable {
     private Long id;
 
-    @Column(insertable = false)
     public Date joined;
  
     public String email;
@@ -32,9 +28,7 @@ public class AppUser {
 
     private String username;
 
-    private String password;
     private String roles;
-    // private String salt;
 
     @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserContent content;
@@ -48,12 +42,29 @@ public class AppUser {
     @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserStatistics statistics;
 
-    public Long getId() {
-        return this.id;
+    public AppUser(AppUserDAO appUserDAO) {
+        this.id = appUserDAO.id;
+        this.joined = appUserDAO.joined;
+        this.email = appUserDAO.email;
+        this.phone = appUserDAO.phone;
+        this.DOB = appUserDAO.DOB;
+        this.username = appUserDAO.username;
+        this.roles = appUserDAO.roles;
+        this.content = appUserDAO.content;
+        this.settings = appUserDAO.settings;
+        this.preferences = appUserDAO.preferences;
+        this.statistics = appUserDAO.statistics;
     }
 
-    public String getPassword() {
-        return password;
+    public AppUser(Map<String, Object> attributes) {
+        //this.id = Long.parseLong((String)attributes.get("id"));
+        this.username = (String)attributes.get("login");
+        this.email = (String)attributes.get("email");
+        //this.imageUrl = (String)attributes.get("avatar_url");
+    }
+
+    public Long getId() {
+        return this.id;
     }
 
     public String getUsername() {
@@ -64,21 +75,22 @@ public class AppUser {
         return roles;
     }
 
-    public void setValuesForNewUser() {
-        this.roles = "USER";
-    }
-
-    public String toString() {
-        return String.format("App User: email: %s", this.email);
+    public AppUserDTO toDTO() {
+        AppUserDTO appUserDTO = new AppUserDTO();
+        appUserDTO.joined = this.joined;
+        appUserDTO.email = this.email;
+        appUserDTO.phone = this.phone;
+        appUserDTO.DOB = this.DOB;
+        appUserDTO.username = this.username;
+        appUserDTO.content = this.content;
+        appUserDTO.settings = this.settings;
+        appUserDTO.preferences = this.preferences;
+        appUserDTO.statistics = this.statistics;
+        return appUserDTO;
     }
 
     public static AppUser fromOauthUser(DefaultOAuth2User oauth2User) {
         Map<String, Object> attributes = oauth2User.getAttributes();
-        AppUser appUser = new AppUser();
-        //appUser.id = Long.parseLong((String)attributes.get("id"));
-        appUser.username = (String)attributes.get("login");
-        appUser.email = (String)attributes.get("email");
-        //appUser.imageUrl = (String)attributes.get("avatar_url");
-        return appUser;
+        return new AppUser(attributes);
     }
 }

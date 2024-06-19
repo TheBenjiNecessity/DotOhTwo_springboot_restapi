@@ -1,4 +1,5 @@
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/model/appUser/AppUserSettings.java
+/Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/auth/Oauth2LoginSuccessHandler.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/detailService/JpaUserDetailsService.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/model/reviewable/ReviewableInfo.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/repository/ReviewRepository.java
@@ -15,6 +16,7 @@
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/config/WebMvcConfig.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/service/AppUserService.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/controller/AppUserController.java
+/Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/auth/AppAuthenticationToken.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/model/reviewable/ReviewableStatistics.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/model/appUser/AppUserContent.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/model/review/ReviewInfo.java
@@ -23,4 +25,5 @@
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/auth/SecurityConfig.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/model/appUser/AppUserPreferences.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/service/ReviewableService.java
+/Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/auth/Oauth2AuthenticationEntrypoint.java
 /Users/benjaminwishart/Documents/Development/DotOhTwo_springboot_restapi/src/main/java/com/dotohtwo/readapi/model/AppUser.java

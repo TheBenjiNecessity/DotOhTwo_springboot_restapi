@@ -3,6 +3,8 @@ package com.dotohtwo.readapi.controller;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.dotohtwo.readapi.controller.DTO.AppUserDTO;
+import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-// import org.springframework.security.access.prepost.PreAuthorize;
-// import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-// import com.dotohtwo.readapi.detailService.JpaUserDetailsService;
 import com.dotohtwo.readapi.model.AppUser;
 import com.dotohtwo.readapi.model.SecurityUser;
 import com.dotohtwo.readapi.service.AppUserService;
@@ -31,42 +30,47 @@ public class AppUserController {
 
     //@PreAuthorize("hasAuthority('USER')")
     @GetMapping
-    public AppUser get(SecurityUser principal, @RequestParam(required = false) String username) {
+    public AppUserDTO get(SecurityUser principal, @RequestParam(required = false) String username) {
         // TODO getting a user other than the signed in user should return less data
-        String name = username != null ? username : principal.getUser().getUsername();
+        String name = username != null ? username : principal.getUser().username;
 
-        return appUserService.getByUserame(name).orElseThrow(() -> {
-            return new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "AppUser not found with given username: " + name
-            );
-        });
+        return appUserService
+                .getByUsername(name)
+                .map(AppUser::toDTO)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + name
+                ));
     }
 
     @GetMapping("/search")
-    public Collection<AppUser> search(
+    public Collection<AppUserDTO> search(
         @RequestParam(value = "text") String searchText,
         @RequestParam(value = "limit") Integer limit,
         @RequestParam(value = "offset") Integer offset
     ) {
-        return appUserService.search(searchText, limit, offset);
+        return appUserService
+                .search(searchText, limit, offset)
+                .stream().map(AppUser::toDTO)
+                .toList();
     }
 
     //@PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
-    public Optional<AppUser> get(@PathVariable("id") String id) {
-        return appUserService.get(Long.parseLong(id));
+    public Optional<AppUserDTO> get(@PathVariable("id") String id) {
+        return appUserService.get(Long.parseLong(id)).map(AppUser::toDTO);
     }
 
     @PostMapping
-    public AppUser create(@RequestBody AppUser user) {
-        user.setValuesForNewUser();
-        return appUserService.create(user);
+    public AppUserDTO create(@RequestBody AppUserDTO appUserDTO) {
+        AppUserDAO appUserDAO = new AppUserDAO(appUserDTO);
+        return appUserService.create(appUserDAO).toDTO();
     }
 
     //@PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping
-    public AppUser update(@RequestBody AppUser user) {
-        return appUserService.update(user);
+    public AppUserDTO update(@RequestBody AppUserDTO appUserDTO) {
+        AppUserDAO appUserDAO = new AppUserDAO(appUserDTO);
+        return appUserService.update(appUserDAO).toDTO();
     }
 
     @DeleteMapping("/{id}")

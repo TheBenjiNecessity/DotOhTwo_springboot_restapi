@@ -3,22 +3,23 @@ package com.dotohtwo.readapi.model;
 import java.util.Arrays;
 import java.util.Collection;
 
+import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class SecurityUser implements UserDetails {
 
-    private final AppUser appUser;
+    private final AppUserDAO appUserDAO;
 
-    public SecurityUser(AppUser appUser) {
-        this.appUser = appUser;
+    public SecurityUser(AppUserDAO appUserDAO) {
+        this.appUserDAO = appUserDAO;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(appUser
-                .getRoles()
+        return Arrays.stream(appUserDAO
+                .roles
                 .split(","))
                 .map(SimpleGrantedAuthority::new)
                 .toList();
@@ -26,12 +27,12 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return appUser.getPassword();
+        return null; // TODO needed? appUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return appUser.getUsername();
+        return appUserDAO.username;
     }
 
     @Override
@@ -54,7 +55,7 @@ public class SecurityUser implements UserDetails {
         return true;
     }
 
-    public AppUser getUser() {
-        return this.appUser;
+    public AppUserDAO getUser() {
+        return this.appUserDAO;
     }
 }

@@ -1,7 +1,6 @@
 package com.dotohtwo.readapi.repository;
- 
-import com.dotohtwo.readapi.model.Review;
 
+import com.dotohtwo.readapi.repository.DAO.ReviewDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReviewRepository extends JpaRepository<Review, Long> {}
+public interface ReviewRepository extends JpaRepository<ReviewDAO, Long> {}

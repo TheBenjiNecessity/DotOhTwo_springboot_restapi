@@ -1,5 +1,6 @@
 package com.dotohtwo.readapi.service;
 
+import com.dotohtwo.readapi.repository.DAO.ReviewDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,34 +18,36 @@ public class ReviewService {
     private ReviewRepository reviewRepository;
        
     public List<Review> getAll() {
-        return reviewRepository.findAll();// needs paging
+        return reviewRepository
+                .findAll()
+                .stream()
+                .map(Review::new)
+                .toList();// needs paging
     }
 
     public Optional<Review> get(Long id) {
-        return reviewRepository.findById(id);
+        return reviewRepository.findById(id).map(Review::new);
     }
 
-    public Review create(Review review) {
-        return reviewRepository.save(review);
+    public Review create(ReviewDAO review) {
+        return new Review(reviewRepository.save(review));
     }
 
-    public Review update(Long id, Review reviewDTO) { // What kind of update? just one field?
-        Review daoReview = reviewRepository.findById(id).map(Review -> {
-            Review.comment = reviewDTO.comment;
-            Review.rating = reviewDTO.rating;
-            Review.content = reviewDTO.content;
-            Review.info = reviewDTO.info;
+    public Review update(Long id, ReviewDAO reviewDAO) { // What kind of update? just one field?
+        ReviewDAO daoReview = reviewRepository.findById(id).map(review -> {
+            review.comment = reviewDAO.comment;
+            review.rating = reviewDAO.rating;
+            review.content = reviewDAO.content;
+            review.info = reviewDAO.info;
 
-            return Review;
-        }).orElseThrow(() -> {
-            return new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Review not found with given id: " + id
-            );
-        });
+            return review;
+        }).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Review not found with given id: " + id
+        ));
 
         reviewRepository.save(daoReview);
 
-        return daoReview;
+        return new Review(daoReview);
     }
 
     public void delete(Long id) {

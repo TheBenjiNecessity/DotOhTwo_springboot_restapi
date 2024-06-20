@@ -20,15 +20,11 @@ public class AppUserDTO {
 
     public String username;
 
-    @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserContent content;
 
-    @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserSettings settings;
 
-    @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserPreferences preferences;
 
-    @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserStatistics statistics;
 }

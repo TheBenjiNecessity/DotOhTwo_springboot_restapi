@@ -12,8 +12,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
 
@@ -26,20 +24,12 @@ public class AppUser implements Serializable {
     public String phone;
     public Date DOB;
 
-    private String username;
+    private final String username;
+    private final String roles;
 
-    private String roles;
-
-    @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserContent content;
-
-    @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserSettings settings;
-
-    @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserPreferences preferences;
-
-    @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserStatistics statistics;
 
     public AppUser(AppUserDAO appUserDAO) {
@@ -61,6 +51,7 @@ public class AppUser implements Serializable {
         this.username = (String)attributes.get("login");
         this.email = (String)attributes.get("email");
         //this.imageUrl = (String)attributes.get("avatar_url");
+        this.roles = "USER";
     }
 
     public Long getId() {

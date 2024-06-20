@@ -1,5 +1,6 @@
 package com.dotohtwo.readapi.service;
 
+import com.dotohtwo.readapi.repository.DAO.ReviewableDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,23 +19,27 @@ public class ReviewableService {
     private ReviewableRepository reviewableRepository;
        
     public List<Reviewable> getAll() {
-        return reviewableRepository.findAll();// needs paging
+        return reviewableRepository.findAll().stream().map(Reviewable::new).toList();// needs paging
     }
 
     public Optional<Reviewable> get(Long id) {
-        return reviewableRepository.findById(id);
+        return reviewableRepository.findById(id).map(Reviewable::new);
     }
 
     public Collection<Reviewable> search(String searchText, String locale, Integer limit, Integer offset) {
-        return reviewableRepository.findReviewablesByTitle(searchText, locale, limit, offset);
+        return reviewableRepository
+                .findReviewablesByTitle(searchText, locale, limit, offset)
+                .stream()
+                .map(Reviewable::new)
+                .toList();
     }
 
-    public Reviewable create(Reviewable reviewable) {
-        return reviewableRepository.save(reviewable);
+    public Reviewable create(ReviewableDAO reviewable) {
+        return new Reviewable(reviewableRepository.save(reviewable));
     }
 
-    public Reviewable update(Long id, Reviewable reviewableDTO) { // What kind of update? just one field?
-        Reviewable daoReviewable = reviewableRepository.findById(id).map(reviewable -> {
+    public Reviewable update(Long id, ReviewableDAO reviewableDTO) { // What kind of update? just one field?
+        ReviewableDAO daoReviewable = reviewableRepository.findById(id).map(reviewable -> {
             reviewable.title = reviewableDTO.title;
             reviewable.description = reviewableDTO.description;
             reviewable.type = reviewableDTO.type;
@@ -49,7 +54,7 @@ public class ReviewableService {
         });
 
         reviewableRepository.save(daoReviewable);
-        return daoReviewable;
+        return new Reviewable(daoReviewable);
     }
 
     public void delete(Long id) {

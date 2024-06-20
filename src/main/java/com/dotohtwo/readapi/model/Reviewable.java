@@ -1,27 +1,17 @@
 package com.dotohtwo.readapi.model;
  
+import com.dotohtwo.readapi.controller.DTO.ReviewableDTO;
 import com.dotohtwo.readapi.model.reviewable.ReviewableContent;
 import com.dotohtwo.readapi.model.reviewable.ReviewableInfo;
 import com.dotohtwo.readapi.model.reviewable.ReviewableStatistics;
 
-//import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import com.dotohtwo.readapi.repository.DAO.ReviewableDAO;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-// TODO this should be called a ...DTO
-@Entity
 public class Reviewable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // @Column(insertable = false)
-    // public Date created; ???
 
     public String title;
     public String description;
@@ -40,7 +30,25 @@ public class Reviewable {
     @JdbcTypeCode(value = SqlTypes.JSON)
     public ReviewableStatistics statistics;
 
-    public String toString() {
-        return "Reviewable";
+    public Reviewable(ReviewableDAO reviewableDAO) {
+        this.id = reviewableDAO.id;
+        this.title = reviewableDAO.title;
+        this.description = reviewableDAO.description;
+        this.type = reviewableDAO.type;
+        this.content = reviewableDAO.content;
+        this.info = reviewableDAO.info;
+        this.statistics = reviewableDAO.statistics;
+    }
+
+    public ReviewableDTO toDTO() {
+        ReviewableDTO reviewableDTO = new ReviewableDTO();
+        reviewableDTO.id = this.id;
+        reviewableDTO.title = this.title;
+        reviewableDTO.description = this.description;
+        reviewableDTO.type = this.type;
+        reviewableDTO.content = this.content;
+        reviewableDTO.info = this.info;
+        reviewableDTO.statistics = this.statistics;
+        return reviewableDTO;
     }
 }

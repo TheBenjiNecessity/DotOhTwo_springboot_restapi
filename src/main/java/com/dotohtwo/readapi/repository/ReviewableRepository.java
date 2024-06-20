@@ -1,14 +1,13 @@
 package com.dotohtwo.readapi.repository;
 
-import com.dotohtwo.readapi.model.Reviewable;
-
+import com.dotohtwo.readapi.repository.DAO.ReviewableDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
-public interface ReviewableRepository extends JpaRepository<Reviewable, Long> {
+public interface ReviewableRepository extends JpaRepository<ReviewableDAO, Long> {
     @Query(
         value = """
             SELECT r.*
@@ -20,7 +19,7 @@ public interface ReviewableRepository extends JpaRepository<Reviewable, Long> {
         """,
         nativeQuery = true
     )
-    Collection<Reviewable> findReviewablesByTitle(
+    Collection<ReviewableDAO> findReviewablesByTitle(
         @Param("text") String searchText,
         @Param("locale") String locale,
         @Param("limit") Integer limit,

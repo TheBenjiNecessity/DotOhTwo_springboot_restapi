@@ -1,8 +1,9 @@
 package com.dotohtwo.readapi.controller;
 
 import java.util.Collection;
-import java.util.List;
 
+import com.dotohtwo.readapi.model.Reviewable;
+import com.dotohtwo.readapi.repository.DAO.ReviewableDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.dotohtwo.readapi.model.Reviewable;
+import com.dotohtwo.readapi.controller.DTO.ReviewableDTO;
 import com.dotohtwo.readapi.service.ReviewableService;
 
 @RestController
@@ -26,28 +27,36 @@ public class ReviewableController {
     private ReviewableService reviewableService;
 
     @GetMapping("/{id}")
-    public Reviewable get(@PathVariable("id") String id) {
-        return reviewableService.get(Long.parseLong(id)).orElseThrow(() -> {
-            return new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Reviewable not found with given id: " + id
-            );
-        });
+    public ReviewableDTO get(@PathVariable("id") String id) {
+        return reviewableService
+                .get(Long.parseLong(id))
+                .map(Reviewable::toDTO)
+                .orElseThrow(() -> {
+                    return new ResponseStatusException(
+                            HttpStatus.NOT_FOUND, "Reviewable not found with given id: " + id
+                    );
+                });
     }
 
     @GetMapping("/search")
-    public Collection<Reviewable> search(
+    public Collection<ReviewableDTO> search(
         @RequestParam(value = "text") String searchText,
         @RequestParam(value = "locale") String locale,
         @RequestParam(value = "limit") Integer limit,
         @RequestParam(value = "offset") Integer offset
     ) {
         // TODO should reviewables return all of their localization data? or just for the locale given?
-        return reviewableService.search(searchText, locale, limit, offset);
+        return reviewableService
+                .search(searchText, locale, limit, offset)
+                .stream()
+                .map(Reviewable::toDTO)
+                .toList();
     }
 
     @PostMapping
-    public Reviewable post(@RequestBody Reviewable reviewable) {
-        return reviewableService.create(reviewable);
+    public ReviewableDTO post(@RequestBody ReviewableDTO reviewableDTO) {
+        ReviewableDAO reviewableDAO = new ReviewableDAO(reviewableDTO);
+        return reviewableService.create(reviewableDAO).toDTO();
     }
 
     // @PatchMapping("/{id}")
@@ -56,8 +65,9 @@ public class ReviewableController {
     // }
 
     @PutMapping("/{id}")
-    public Reviewable put(@PathVariable("id") String id, @RequestBody Reviewable reviewable) {
-        return reviewableService.update(Long.parseLong(id), reviewable);
+    public ReviewableDTO put(@PathVariable("id") String id, @RequestBody ReviewableDTO reviewableDTO) {
+        ReviewableDAO reviewableDAO = new ReviewableDAO(reviewableDTO);
+        return reviewableService.update(Long.parseLong(id), reviewableDAO).toDTO();
     }
 
     @DeleteMapping("/{id}")

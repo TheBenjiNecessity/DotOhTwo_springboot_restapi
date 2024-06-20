@@ -4,13 +4,11 @@ import com.dotohtwo.readapi.model.appUser.AppUserContent;
 import com.dotohtwo.readapi.model.appUser.AppUserPreferences;
 import com.dotohtwo.readapi.model.appUser.AppUserSettings;
 import com.dotohtwo.readapi.model.appUser.AppUserStatistics;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.Date;
 
 public class AppUserDTO {
-    private Long id;
+    public Long id;
 
     public Date joined;
 

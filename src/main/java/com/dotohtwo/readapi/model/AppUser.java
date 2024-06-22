@@ -52,6 +52,11 @@ public class AppUser implements Serializable {
         this.email = (String)attributes.get("email");
         //this.imageUrl = (String)attributes.get("avatar_url");
         this.roles = "USER";
+
+        if (this.email == null || this.email.isBlank()) {
+            // TODO what to do about no email?
+            this.email = "noemail@noemail.com"; // TODO need to remove
+        }
     }
 
     public Long getId() {

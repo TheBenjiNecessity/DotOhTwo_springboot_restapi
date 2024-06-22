@@ -85,6 +85,20 @@ public class AppUser implements Serializable {
         return appUserDTO;
     }
 
+    public AppUserDAO toDAO() {
+        AppUserDAO appUserDAO = new AppUserDAO();
+        appUserDAO.email = this.email;
+        appUserDAO.phone = this.phone;
+        appUserDAO.DOB = this.DOB;
+        appUserDAO.username = this.username;
+        appUserDAO.content = this.content;
+        appUserDAO.settings = this.settings;
+        appUserDAO.preferences = this.preferences;
+        appUserDAO.statistics = this.statistics;
+        appUserDAO.roles = this.roles;
+        return appUserDAO;
+    }
+
     public static AppUser fromOauthUser(DefaultOAuth2User oauth2User) {
         Map<String, Object> attributes = oauth2User.getAttributes();
         return new AppUser(attributes);

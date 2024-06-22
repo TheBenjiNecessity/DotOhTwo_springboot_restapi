@@ -44,7 +44,9 @@ public class SecurityConfig {
                             Optional<AppUser> dbUser = this.appUserService.getByUsername(appUser.getUsername());
                             AppAuthenticationToken token = dbUser.map(AppAuthenticationToken::new).orElseGet(() -> new AppAuthenticationToken(appUser));
 
-                            // TODO set user in db if not exists
+                            if (dbUser.isEmpty()) {
+                                this.appUserService.create(appUser.toDAO()); // TODO what happens on failure?
+                            }
 
                             SecurityContextHolder.getContext().setAuthentication(token);
                             response.sendRedirect("http://localhost:3000/" + appUser.getUsername()); // TODO get from properties

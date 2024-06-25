@@ -3,6 +3,7 @@ package com.dotohtwo.readapi.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,6 +25,9 @@ import java.util.Optional;
 public class SecurityConfig {
     @Autowired
     private AppUserService appUserService;
+
+    @Autowired
+    private Environment env;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -49,7 +53,7 @@ public class SecurityConfig {
                             }
 
                             SecurityContextHolder.getContext().setAuthentication(token);
-                            response.sendRedirect("http://localhost:3000/" + appUser.getUsername()); // TODO get from properties
+                            response.sendRedirect(env.getProperty("frontend.url") + appUser.getUsername()); // TODO get from properties
                         })
                 )
                 .build();

@@ -50,6 +50,7 @@ public class AppUserService {
             appUser.email = user.email;
             appUser.phone = user.phone;
             appUser.roles = user.roles;
+            appUser.isComplete = user.isComplete;
             appUser.content = user.content;
             appUser.settings = user.settings;
             appUser.preferences = user.preferences;

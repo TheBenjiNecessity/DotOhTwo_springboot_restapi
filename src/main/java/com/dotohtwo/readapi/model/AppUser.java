@@ -26,6 +26,7 @@ public class AppUser implements Serializable {
 
     private final String username;
     private final String roles;
+    private final boolean isComplete;
 
     public AppUserContent content;
     public AppUserSettings settings;
@@ -40,6 +41,7 @@ public class AppUser implements Serializable {
         this.DOB = appUserDAO.DOB;
         this.username = appUserDAO.username;
         this.roles = appUserDAO.roles;
+        this.isComplete = appUserDAO.isComplete;
         this.content = appUserDAO.content;
         this.settings = appUserDAO.settings;
         this.preferences = appUserDAO.preferences;
@@ -52,6 +54,7 @@ public class AppUser implements Serializable {
         this.email = (String)attributes.get("email");
         //this.imageUrl = (String)attributes.get("avatar_url");
         this.roles = "USER";
+        this.isComplete = false;
 
         if (this.email == null || this.email.isBlank()) {
             // TODO what to do about no email?
@@ -78,6 +81,7 @@ public class AppUser implements Serializable {
         appUserDTO.phone = this.phone;
         appUserDTO.DOB = this.DOB;
         appUserDTO.username = this.username;
+        appUserDTO.isComplete = this.isComplete;
         appUserDTO.content = this.content;
         appUserDTO.settings = this.settings;
         appUserDTO.preferences = this.preferences;
@@ -91,6 +95,7 @@ public class AppUser implements Serializable {
         appUserDAO.phone = this.phone;
         appUserDAO.DOB = this.DOB;
         appUserDAO.username = this.username;
+        appUserDAO.isComplete = this.isComplete;
         appUserDAO.content = this.content;
         appUserDAO.settings = this.settings;
         appUserDAO.preferences = this.preferences;

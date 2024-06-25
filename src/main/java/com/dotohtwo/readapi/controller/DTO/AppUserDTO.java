@@ -17,6 +17,7 @@ public class AppUserDTO {
     public Date DOB;
 
     public String username;
+    public boolean isComplete;
 
     public AppUserContent content;
 

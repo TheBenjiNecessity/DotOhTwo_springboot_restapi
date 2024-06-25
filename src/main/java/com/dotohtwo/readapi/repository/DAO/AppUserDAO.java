@@ -26,9 +26,8 @@ public class AppUserDAO {
     public Date DOB;
 
     public String username;
-
     public String roles;
-    // private String salt;
+    public boolean isComplete;
 
     @JdbcTypeCode(value = SqlTypes.JSON)
     public AppUserContent content;

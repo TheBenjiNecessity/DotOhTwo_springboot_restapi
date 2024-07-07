@@ -67,11 +67,11 @@ public class AppUser implements Serializable {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public String getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public AppUserDTO toDTO() {

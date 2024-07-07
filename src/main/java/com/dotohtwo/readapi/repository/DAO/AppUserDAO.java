@@ -27,6 +27,8 @@ public class AppUserDAO {
 
     public String username;
     public String roles;
+
+    @Column(name = "is_complete")
     public boolean isComplete;
 
     @JdbcTypeCode(value = SqlTypes.JSON)

@@ -1,8 +1,10 @@
 package com.dotohtwo.readapi.controller;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.dotohtwo.readapi.auth.AppAuthenticationToken;
 import com.dotohtwo.readapi.controller.DTO.AppUserDTO;
 import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dotohtwo.readapi.model.AppUser;
-import com.dotohtwo.readapi.model.SecurityUser;
 import com.dotohtwo.readapi.service.AppUserService;
 
 @RestController
@@ -30,9 +31,10 @@ public class AppUserController {
 
     //@PreAuthorize("hasAuthority('USER')")
     @GetMapping
-    public AppUserDTO get(SecurityUser principal, @RequestParam(required = false) String username) {
+    public AppUserDTO get(Principal principal, @RequestParam(required = false) String username) {
         // TODO getting a user other than the signed in user should return less data
-        String name = username != null ? username : principal.getUser().username;
+        AppAuthenticationToken appAuthenticationToken = (AppAuthenticationToken) principal;
+        String name = username != null ? username : appAuthenticationToken.getUser().getUsername();
 
         return appUserService
                 .getByUsername(name)

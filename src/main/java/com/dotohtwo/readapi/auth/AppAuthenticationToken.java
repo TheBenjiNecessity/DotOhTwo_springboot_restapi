@@ -53,4 +53,6 @@ public class AppAuthenticationToken implements Authentication {
     public String getName() {
         return appUser.getUsername();
     }
+
+    public AppUser getUser() { return this.appUser; }
 }

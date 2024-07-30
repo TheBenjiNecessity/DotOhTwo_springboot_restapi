@@ -19,14 +19,14 @@ public class AppUser implements Serializable {
     private Long id;
 
     public Date joined;
- 
+
+    public String username;
     public String email;
     public String phone;
     public Date DOB;
+    public boolean isComplete;
 
-    private final String username;
     private final String roles;
-    private final boolean isComplete;
 
     public AppUserContent content;
     public AppUserSettings settings;

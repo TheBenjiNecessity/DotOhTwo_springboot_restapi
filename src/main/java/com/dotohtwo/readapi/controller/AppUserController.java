@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.dotohtwo.readapi.auth.AppAuthenticationToken;
 import com.dotohtwo.readapi.controller.DTO.AppUserDTO;
+import com.dotohtwo.readapi.controller.DTO.CompleteProfileDTO;
 import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,6 +74,22 @@ public class AppUserController {
     public AppUserDTO update(@RequestBody AppUserDTO appUserDTO) {
         AppUserDAO appUserDAO = new AppUserDAO(appUserDTO);
         return appUserService.update(appUserDAO).toDTO();
+    }
+
+    @PutMapping("/complete-profile")
+    public AppUserDTO completeProfile(Principal principal, @RequestBody CompleteProfileDTO completeProfileDTO) {
+        AppAuthenticationToken appAuthenticationToken = (AppAuthenticationToken) principal;
+        String username = appAuthenticationToken.getUser().getUsername();
+        AppUser appUser = appUserService
+            .getByUsername(username)
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
+            ));
+
+        appUser.email = completeProfileDTO.email;
+        appUser.isComplete = true;
+
+        return appUserService.update(appUser.toDAO()).toDTO();
     }
 
     @DeleteMapping("/{id}")

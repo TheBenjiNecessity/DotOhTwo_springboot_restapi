@@ -53,7 +53,7 @@ public class SecurityConfig {
                             }
 
                             SecurityContextHolder.getContext().setAuthentication(token);
-                            response.sendRedirect(env.getProperty("frontend.url") + appUser.getUsername()); // TODO get from properties
+                            response.sendRedirect(env.getProperty("frontend.url"));
                         })
                 )
                 .build();

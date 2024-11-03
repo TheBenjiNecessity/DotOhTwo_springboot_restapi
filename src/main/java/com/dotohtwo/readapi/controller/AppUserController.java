@@ -4,10 +4,11 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.dotohtwo.readapi.auth.AppAuthenticationToken;
 import com.dotohtwo.readapi.controller.DTO.AppUserDTO;
 import com.dotohtwo.readapi.controller.DTO.CompleteProfileDTO;
 import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,12 +31,10 @@ public class AppUserController {
     @Autowired
     private AppUserService appUserService;
 
-    //@PreAuthorize("hasAuthority('USER')")
     @GetMapping
-    public AppUserDTO get(Principal principal, @RequestParam(required = false) String username) {
+    public AppUserDTO get(@AuthenticationPrincipal Jwt jwt, @RequestParam(required = false) String username) {
         // TODO getting a user other than the signed in user should return less data
-        AppAuthenticationToken appAuthenticationToken = (AppAuthenticationToken) principal;
-        String name = username != null ? username : appAuthenticationToken.getUser().getUsername();
+        String name = username != null ? username : jwt.getClaim("name");
 
         return appUserService
                 .getByUsername(name)
@@ -57,7 +56,6 @@ public class AppUserController {
                 .toList();
     }
 
-    //@PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public Optional<AppUserDTO> get(@PathVariable("id") String id) {
         return appUserService.get(Long.parseLong(id)).map(AppUser::toDTO);
@@ -69,7 +67,6 @@ public class AppUserController {
         return appUserService.create(appUserDAO).toDTO();
     }
 
-    //@PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping
     public AppUserDTO update(@RequestBody AppUserDTO appUserDTO) {
         AppUserDAO appUserDAO = new AppUserDAO(appUserDTO);
@@ -77,9 +74,8 @@ public class AppUserController {
     }
 
     @PutMapping("/complete-profile")
-    public AppUserDTO completeProfile(Principal principal, @RequestBody CompleteProfileDTO completeProfileDTO) {
-        AppAuthenticationToken appAuthenticationToken = (AppAuthenticationToken) principal;
-        String username = appAuthenticationToken.getUser().getUsername();
+    public AppUserDTO completeProfile(@AuthenticationPrincipal Jwt jwt, @RequestBody CompleteProfileDTO completeProfileDTO) {
+        String username = jwt.getClaim("name");
         AppUser appUser = appUserService
             .getByUsername(username)
             .orElseThrow(() -> new ResponseStatusException(

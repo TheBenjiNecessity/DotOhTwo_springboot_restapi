@@ -48,9 +48,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // TODO remove for security reasons
                 .cors(c -> c.configurationSource(cors()))
                 .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/actuator/health").permitAll();
                     auth.anyRequest().authenticated();
                 })
-                .oauth2ResourceServer(auth -> auth.jwt(Customizer.withDefaults()))
+                //.oauth2ResourceServer(auth -> auth.jwt(Customizer.withDefaults()))
                 .exceptionHandling(exceptionHandlingConfigurer -> {
                     exceptionHandlingConfigurer.authenticationEntryPoint(
                             new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));

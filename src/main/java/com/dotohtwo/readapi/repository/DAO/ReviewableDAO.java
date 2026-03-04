@@ -4,14 +4,12 @@ import com.dotohtwo.readapi.controller.DTO.ReviewableDTO;
 import com.dotohtwo.readapi.model.reviewable.ReviewableContent;
 import com.dotohtwo.readapi.model.reviewable.ReviewableInfo;
 import com.dotohtwo.readapi.model.reviewable.ReviewableStatistics;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 @Entity
+@Table(name = "reviewable")
 public class ReviewableDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

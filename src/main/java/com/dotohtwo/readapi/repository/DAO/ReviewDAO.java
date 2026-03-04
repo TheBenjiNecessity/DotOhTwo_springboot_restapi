@@ -10,6 +10,7 @@ import org.hibernate.type.SqlTypes;
 import java.util.Date;
 
 @Entity
+@Table(name = "review")
 public class ReviewDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +34,6 @@ public class ReviewDAO {
     public ReviewDAO() {}
 
     public ReviewDAO(ReviewDTO reviewDTO) {
-        this.userId = reviewDTO.userId;
-        this.reviewableId = reviewDTO.reviewableId;
         this.created = reviewDTO.created;
         this.comment = reviewDTO.comment;
         this.rating = reviewDTO.rating;

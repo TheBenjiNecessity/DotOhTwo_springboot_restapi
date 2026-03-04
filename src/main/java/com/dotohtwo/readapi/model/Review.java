@@ -54,8 +54,8 @@ public class Review {
 
     public Review(ReviewDAO reviewDAO) {
         this.id = reviewDAO.id;
-        this.userId = reviewDAO.userId;
-        this.reviewableId = reviewDAO.reviewableId;
+        this.userId = reviewDAO.user != null ? reviewDAO.user.id : null;
+        this.reviewableId = reviewDAO.reviewable != null ? reviewDAO.reviewable.id : null;
         this.created = reviewDAO.created;
         this.comment = reviewDAO.comment;
         this.rating = reviewDAO.rating;

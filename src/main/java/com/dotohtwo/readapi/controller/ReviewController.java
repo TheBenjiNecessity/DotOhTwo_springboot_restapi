@@ -47,7 +47,7 @@ public class ReviewController {
 
     @PostMapping("/{id}")
     public ReviewDTO post(@RequestBody ReviewDTO review) {
-        return reviewService.create(new ReviewDAO(review)).toDTO();
+        return reviewService.create(review).toDTO();
     }
 
     // @PatchMapping("/{id}")

@@ -1,5 +1,6 @@
 package com.dotohtwo.readapi.service;
 
+import com.dotohtwo.readapi.controller.DTO.ReviewDTO;
 import com.dotohtwo.readapi.repository.DAO.ReviewDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.dotohtwo.readapi.model.Review;
+import com.dotohtwo.readapi.repository.AppUserRepository;
 import com.dotohtwo.readapi.repository.ReviewRepository;
+import com.dotohtwo.readapi.repository.ReviewableRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +19,12 @@ import java.util.Optional;
 public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ReviewableRepository reviewableRepository;
+
+    @Autowired
+    private AppUserRepository appUserRepository;
        
     public List<Review> getAll() {
         return reviewRepository
@@ -29,8 +38,11 @@ public class ReviewService {
         return reviewRepository.findById(id).map(Review::new);
     }
 
-    public Review create(ReviewDAO review) {
-        return new Review(reviewRepository.save(review));
+    public Review create(ReviewDTO reviewDTO) {
+        ReviewDAO reviewDAO = new ReviewDAO(reviewDTO);
+        reviewDAO.user = appUserRepository.getReferenceById(reviewDTO.userId);
+        reviewDAO.reviewable = reviewableRepository.getReferenceById(reviewDTO.reviewableId);
+        return new Review(reviewRepository.save(reviewDAO));
     }
 
     public Review update(Long id, ReviewDAO reviewDAO) { // What kind of update? just one field?

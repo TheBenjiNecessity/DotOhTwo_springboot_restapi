@@ -16,8 +16,13 @@ public class ReviewDAO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    public Long userId;
-    public Long reviewableId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    public AppUserDAO user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewableId")
+    public ReviewableDAO reviewable;
 
     @Column(insertable = false)
     public Date created;

@@ -42,18 +42,6 @@ public class AppUserController {
                 ));
     }
 
-    @GetMapping("/search")
-    public Collection<AppUserDTO> search(
-        @RequestParam(value = "text") String searchText,
-        @RequestParam(value = "limit") Integer limit,
-        @RequestParam(value = "offset") Integer offset
-    ) {
-        return appUserService
-                .search(searchText, limit, offset)
-                .stream().map(AppUser::toDTO)
-                .toList();
-    }
-
     @GetMapping("/{id}")
     public AppUserDTO getUserById(@PathVariable("id") String id) {
         return appUserService

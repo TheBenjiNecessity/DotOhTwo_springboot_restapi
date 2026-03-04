@@ -39,31 +39,11 @@ public class ReviewableController {
                 });
     }
 
-    @GetMapping("/search")
-    public Collection<ReviewableDTO> search(
-        @RequestParam(value = "text") String searchText,
-        @RequestParam(value = "locale") String locale,
-        @RequestParam(value = "limit") Integer limit,
-        @RequestParam(value = "offset") Integer offset
-    ) {
-        // TODO should reviewables return all of their localization data? or just for the locale given?
-        return reviewableService
-                .search(searchText, locale, limit, offset)
-                .stream()
-                .map(Reviewable::toDTO)
-                .toList();
-    }
-
     @PostMapping
     public ReviewableDTO post(@RequestBody ReviewableDTO reviewableDTO) {
         ReviewableDAO reviewableDAO = new ReviewableDAO(reviewableDTO);
         return reviewableService.create(reviewableDAO).toDTO();
     }
-
-    // @PatchMapping("/{id}")
-    // public String get(@PathVariable("id") String id) {
-    //   return "review";
-    // }
 
     @PutMapping("/{id}")
     public ReviewableDTO put(@PathVariable("id") String id, @RequestBody ReviewableDTO reviewableDTO) {

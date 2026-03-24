@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.dotohtwo.readapi.kafka.KafkaProducerService;
 import com.dotohtwo.readapi.model.AppUser;
 import com.dotohtwo.readapi.repository.AppUserRepository;
 import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class AppUserService {
     @Autowired
     private AppUserRepository appUserRepository;
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
        
     public List<AppUser> getAll() {
         return appUserRepository
@@ -40,7 +43,9 @@ public class AppUserService {
     }
 
     public AppUser create(AppUserDAO user) {
-        return new AppUser(appUserRepository.save(user));
+        AppUser created = new AppUser(appUserRepository.save(user));
+        kafkaProducerService.publish("users.created", created);
+        return created;
     }
 
     public AppUser update(AppUserDAO user) { // What kind of update? just one field?

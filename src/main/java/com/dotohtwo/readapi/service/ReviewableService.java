@@ -1,5 +1,6 @@
 package com.dotohtwo.readapi.service;
 
+import com.dotohtwo.readapi.kafka.KafkaProducerService;
 import com.dotohtwo.readapi.repository.DAO.ReviewableDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class ReviewableService {
     @Autowired
     private ReviewableRepository reviewableRepository;
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
        
     public List<Reviewable> getAll() {
         return reviewableRepository.findAll().stream().map(Reviewable::new).toList();// needs paging
@@ -35,7 +38,9 @@ public class ReviewableService {
     }
 
     public Reviewable create(ReviewableDAO reviewable) {
-        return new Reviewable(reviewableRepository.save(reviewable));
+        Reviewable created = new Reviewable(reviewableRepository.save(reviewable));
+        kafkaProducerService.publish("reviewables.created", created);
+        return created;
     }
 
     public Reviewable update(Long id, ReviewableDAO reviewableDTO) { // What kind of update? just one field?

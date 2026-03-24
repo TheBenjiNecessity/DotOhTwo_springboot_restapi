@@ -6,7 +6,9 @@ import com.dotohtwo.readapi.model.appUser.AppUserPreferences;
 import com.dotohtwo.readapi.model.appUser.AppUserSettings;
 import com.dotohtwo.readapi.model.appUser.AppUserStatistics;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.generator.EventType;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Date;
@@ -18,13 +20,19 @@ public class AppUserDAO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
+    @Generated(event = EventType.INSERT)
     @Column(insertable = false)
     public Date joined;
 
+    @Column(unique = true)
     public String email;
+
+    @Column(unique = true)
     public String phone;
+
     public Date DOB;
 
+    @Column(unique = true)
     public String username;
     public String roles;
 

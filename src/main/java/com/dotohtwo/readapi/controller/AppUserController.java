@@ -42,6 +42,17 @@ public class AppUserController {
                 ));
     }
 
+    @GetMapping("/me")
+    public AppUserDTO getMe(@AuthenticationPrincipal Jwt jwt) {
+        String username = jwt.getClaim("name");
+        return appUserService
+                .getByUsername(username)
+                .map(AppUser::toDTO)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
+                ));
+    }
+
     @GetMapping("/{id}")
     public AppUserDTO getUserById(@PathVariable("id") String id) {
         return appUserService

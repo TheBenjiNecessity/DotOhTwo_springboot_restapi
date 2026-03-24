@@ -2,7 +2,7 @@ FROM amazoncorretto:21-alpine
 
 VOLUME /tmp
 
-ENV ENVIRONMENT # prod/dev
+ENV ENVIRONMENT=
 
 EXPOSE 8080
 

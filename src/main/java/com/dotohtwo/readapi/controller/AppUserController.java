@@ -25,7 +25,7 @@ import com.dotohtwo.readapi.model.AppUser;
 import com.dotohtwo.readapi.service.AppUserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class AppUserController {
     @Autowired
     private AppUserService appUserService;

@@ -22,7 +22,7 @@ import com.dotohtwo.readapi.controller.DTO.ReviewableDTO;
 import com.dotohtwo.readapi.service.ReviewableService;
 
 @RestController
-@RequestMapping("/reviewable")
+@RequestMapping("/reviewables")
 public class ReviewableController {
     @Autowired
     private ReviewableService reviewableService;

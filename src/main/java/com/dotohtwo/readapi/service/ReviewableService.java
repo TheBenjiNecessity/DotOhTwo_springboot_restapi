@@ -45,9 +45,6 @@ public class ReviewableService {
 
     public Reviewable update(Long id, ReviewableDAO reviewableDTO) { // What kind of update? just one field?
         ReviewableDAO daoReviewable = reviewableRepository.findById(id).map(reviewable -> {
-            reviewable.title = reviewableDTO.title;
-            reviewable.description = reviewableDTO.description;
-            reviewable.type = reviewableDTO.type;
             reviewable.content = reviewableDTO.content;
             reviewable.info = reviewableDTO.info;
             reviewable.statistics = reviewableDTO.statistics;

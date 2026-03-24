@@ -15,9 +15,8 @@ public class ReviewableDAO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    public String title;
-    public String description;
-    public String type;
+    @Column(unique = true)
+    public String slug;
 
     @JdbcTypeCode(value = SqlTypes.JSON)
     public ReviewableContent content;
@@ -31,9 +30,7 @@ public class ReviewableDAO {
     public ReviewableDAO() {}
 
     public ReviewableDAO(ReviewableDTO reviewableDTO) {
-        this.title = reviewableDTO.title;
-        this.description = reviewableDTO.description;
-        this.type = reviewableDTO.type;
+        this.slug = reviewableDTO.slug;
         this.content = reviewableDTO.content;
         this.info = reviewableDTO.info;
         this.statistics = reviewableDTO.statistics;

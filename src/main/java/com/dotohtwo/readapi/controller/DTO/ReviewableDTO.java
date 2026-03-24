@@ -7,9 +7,7 @@ import com.dotohtwo.readapi.model.reviewable.ReviewableStatistics;
 public class ReviewableDTO {
     public Long id;
 
-    public String title;
-    public String description;
-    public String type;
+    public String slug;
 
     public ReviewableContent content;
     public ReviewableInfo info;

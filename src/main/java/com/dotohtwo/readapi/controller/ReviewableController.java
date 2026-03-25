@@ -6,6 +6,7 @@ import com.dotohtwo.readapi.model.Reviewable;
 import com.dotohtwo.readapi.repository.DAO.ReviewableDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import java.util.UUID;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,9 +29,9 @@ public class ReviewableController {
     private ReviewableService reviewableService;
 
     @GetMapping("/{id}")
-    public ReviewableDTO get(@PathVariable("id") String id) {
+    public ReviewableDTO get(@PathVariable("id") UUID id) {
         return reviewableService
-                .get(Long.parseLong(id))
+                .get(id)
                 .map(Reviewable::toDTO)
                 .orElseThrow(() -> {
                     return new ResponseStatusException(
@@ -46,14 +47,14 @@ public class ReviewableController {
     }
 
     @PutMapping("/{id}")
-    public ReviewableDTO put(@PathVariable("id") String id, @RequestBody ReviewableDTO reviewableDTO) {
+    public ReviewableDTO put(@PathVariable("id") UUID id, @RequestBody ReviewableDTO reviewableDTO) {
         ReviewableDAO reviewableDAO = new ReviewableDAO(reviewableDTO);
-        return reviewableService.update(Long.parseLong(id), reviewableDAO).toDTO();
+        return reviewableService.update(id, reviewableDAO).toDTO();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") String id) {
-        reviewableService.delete(Long.parseLong(id));
+    public void delete(@PathVariable("id") UUID id) {
+        reviewableService.delete(id);
     }
 }

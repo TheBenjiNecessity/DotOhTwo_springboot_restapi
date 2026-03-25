@@ -11,12 +11,13 @@ import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
 
 public class AppUser implements Serializable {
-    private Long id;
+    private UUID id;
 
     public Date joined;
 
@@ -62,7 +63,7 @@ public class AppUser implements Serializable {
         }
     }
 
-    public Long getId() {
+    public UUID getId() {
         return this.id;
     }
 

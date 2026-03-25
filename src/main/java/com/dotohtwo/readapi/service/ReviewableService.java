@@ -13,6 +13,7 @@ import com.dotohtwo.readapi.repository.ReviewableRepository;
 import java.util.List;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ReviewableService {
@@ -25,7 +26,7 @@ public class ReviewableService {
         return reviewableRepository.findAll().stream().map(Reviewable::new).toList();// needs paging
     }
 
-    public Optional<Reviewable> get(Long id) {
+    public Optional<Reviewable> get(UUID id) {
         return reviewableRepository.findById(id).map(Reviewable::new);
     }
 
@@ -43,7 +44,7 @@ public class ReviewableService {
         return created;
     }
 
-    public Reviewable update(Long id, ReviewableDAO reviewableDTO) { // What kind of update? just one field?
+    public Reviewable update(UUID id, ReviewableDAO reviewableDTO) { // What kind of update? just one field?
         ReviewableDAO daoReviewable = reviewableRepository.findById(id).map(reviewable -> {
             reviewable.content = reviewableDTO.content;
             reviewable.info = reviewableDTO.info;
@@ -59,7 +60,7 @@ public class ReviewableService {
         return new Reviewable(daoReviewable);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         reviewableRepository.deleteById(id);
     }
 }

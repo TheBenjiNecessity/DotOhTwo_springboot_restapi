@@ -13,6 +13,7 @@ import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AppUserService {
@@ -29,7 +30,7 @@ public class AppUserService {
                 .toList(); // needs paging
     }
 
-    public Optional<AppUser> get(Long id) {
+    public Optional<AppUser> get(UUID id) {
         return appUserRepository.findById(id).map(AppUser::new);
     }
 
@@ -72,7 +73,7 @@ public class AppUserService {
         return new AppUser(daoUser);
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         appUserRepository.deleteById(id);
     }
 }

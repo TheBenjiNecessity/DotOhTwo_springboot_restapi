@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import java.util.UUID;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,9 +55,9 @@ public class AppUserController {
     }
 
     @GetMapping("/{id}")
-    public AppUserDTO getUserById(@PathVariable("id") String id) {
+    public AppUserDTO getUserById(@PathVariable("id") UUID id) {
         return appUserService
-                .get(Long.parseLong(id))
+                .get(id)
                 .map(AppUser::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "AppUser not found with given id: " + id
@@ -92,7 +93,7 @@ public class AppUserController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") String id) {
-        appUserService.delete(Long.parseLong(id));
+    public void delete(@PathVariable("id") UUID id) {
+        appUserService.delete(id);
     }
 }

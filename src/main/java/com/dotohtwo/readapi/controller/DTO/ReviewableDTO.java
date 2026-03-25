@@ -4,8 +4,10 @@ import com.dotohtwo.readapi.model.reviewable.ReviewableContent;
 import com.dotohtwo.readapi.model.reviewable.ReviewableInfo;
 import com.dotohtwo.readapi.model.reviewable.ReviewableStatistics;
 
+import java.util.UUID;
+
 public class ReviewableDTO {
-    public Long id;
+    public UUID id;
 
     public String slug;
 

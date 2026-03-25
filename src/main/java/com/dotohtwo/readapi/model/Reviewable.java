@@ -10,12 +10,14 @@ import com.dotohtwo.readapi.repository.DAO.ReviewableDAO;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.UUID;
+
 public class Reviewable {
-    private Long id;
+    private UUID id;
 
     public String slug;
 
-    public Long getId() {
+    public UUID getId() {
         return this.id;
     }
 

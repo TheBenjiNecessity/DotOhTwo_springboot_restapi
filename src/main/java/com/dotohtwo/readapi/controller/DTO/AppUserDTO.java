@@ -6,9 +6,10 @@ import com.dotohtwo.readapi.model.appUser.AppUserSettings;
 import com.dotohtwo.readapi.model.appUser.AppUserStatistics;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class AppUserDTO {
-    public Long id;
+    public UUID id;
 
     public Date joined;
 

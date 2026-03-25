@@ -5,6 +5,7 @@ import com.dotohtwo.readapi.model.reviewable.ReviewableContent;
 import com.dotohtwo.readapi.model.reviewable.ReviewableInfo;
 import com.dotohtwo.readapi.model.reviewable.ReviewableStatistics;
 import jakarta.persistence.*;
+import java.util.UUID;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -12,8 +13,8 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "reviewable")
 public class ReviewableDAO {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    public UUID id;
 
     @Column(unique = true)
     public String slug;

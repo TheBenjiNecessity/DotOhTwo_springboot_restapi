@@ -8,8 +8,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface AppUserRepository extends JpaRepository<AppUserDAO, Long> {
+public interface AppUserRepository extends JpaRepository<AppUserDAO, UUID> {
     Optional<AppUserDAO> findByUsername(String username);
 
     @Query(

@@ -12,13 +12,14 @@ import org.hibernate.generator.EventType;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "app_user")
 public class AppUserDAO {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    public UUID id;
 
     @Generated(event = EventType.INSERT)
     @Column(insertable = false)

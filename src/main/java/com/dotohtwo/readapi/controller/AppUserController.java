@@ -1,6 +1,7 @@
 package com.dotohtwo.readapi.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.dotohtwo.readapi.controller.DTO.AppUserDTO;
 import com.dotohtwo.readapi.controller.DTO.CompleteProfileDTO;
@@ -89,6 +90,11 @@ public class AppUserController {
         appUser.isComplete = true;
 
         return appUserService.update(appUser.toDAO()).toDTO();
+    }
+
+    @GetMapping("/{id}/followers")
+    public List<String> getFollowers(@PathVariable("id") UUID id) {
+        return appUserService.getFollowers(id);
     }
 
     @DeleteMapping("/{id}")

@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.dotohtwo.readapi.kafka.KafkaProducerService;
 import com.dotohtwo.readapi.model.AppUser;
 import com.dotohtwo.readapi.repository.AppUserRepository;
+import com.dotohtwo.readapi.repository.FollowRepository;
 import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
 
 import java.util.Collection;
@@ -19,6 +20,8 @@ import java.util.UUID;
 public class AppUserService {
     @Autowired
     private AppUserRepository appUserRepository;
+    @Autowired
+    private FollowRepository followRepository;
     @Autowired
     private KafkaProducerService kafkaProducerService;
        
@@ -71,6 +74,10 @@ public class AppUserService {
         appUserRepository.save(daoUser);
 
         return new AppUser(daoUser);
+    }
+
+    public List<String> getFollowers(UUID userId) {
+        return followRepository.findFollowerUsernamesByUserId(userId);
     }
 
     public void delete(UUID id) {

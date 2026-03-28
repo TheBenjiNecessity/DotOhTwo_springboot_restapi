@@ -92,6 +92,12 @@ public class AppUserController {
         return appUserService.update(appUser.toDAO()).toDTO();
     }
 
+    @PostMapping("/{id}/follow")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void follow(@AuthenticationPrincipal Jwt jwt, @PathVariable("id") UUID id) {
+        appUserService.follow(jwt.getClaim("name"), id);
+    }
+
     @GetMapping("/{id}/followers")
     public List<String> getFollowers(@PathVariable("id") UUID id) {
         return appUserService.getFollowers(id);

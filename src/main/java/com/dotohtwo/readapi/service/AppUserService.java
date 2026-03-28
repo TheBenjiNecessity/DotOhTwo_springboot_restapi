@@ -10,6 +10,8 @@ import com.dotohtwo.readapi.model.AppUser;
 import com.dotohtwo.readapi.repository.AppUserRepository;
 import com.dotohtwo.readapi.repository.FollowRepository;
 import com.dotohtwo.readapi.repository.DAO.AppUserDAO;
+import com.dotohtwo.readapi.repository.DAO.FollowDAO;
+import com.dotohtwo.readapi.repository.DAO.FollowId;
 
 import java.util.Collection;
 import java.util.List;
@@ -74,6 +76,29 @@ public class AppUserService {
         appUserRepository.save(daoUser);
 
         return new AppUser(daoUser);
+    }
+
+    public void follow(String followerUsername, UUID followedId) {
+        UUID followerId = appUserRepository.findByUsername(followerUsername)
+                .map(u -> u.id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + followerUsername
+                ));
+
+        if (!appUserRepository.existsById(followedId)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "AppUser not found with given id: " + followedId
+            );
+        }
+
+        FollowId followId = new FollowId();
+        followId.followerId = followerId;
+        followId.followedId = followedId;
+
+        FollowDAO follow = new FollowDAO();
+        follow.id = followId;
+
+        followRepository.save(follow);
     }
 
     public List<String> getFollowers(UUID userId) {

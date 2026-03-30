@@ -32,6 +32,14 @@ public class AppUserController {
     @Autowired
     private AppUserService appUserService;
 
+    @GetMapping("/check")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void checkUsername(@RequestParam(value = "username") String username) {
+        if (appUserService.getByUsername(username).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
+    }
+
     @GetMapping
     public AppUserDTO get(@RequestParam(value = "username") String username) {
         // potentially unsafe endpoint as any user could access this with an access token

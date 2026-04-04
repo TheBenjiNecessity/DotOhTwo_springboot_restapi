@@ -28,6 +28,17 @@ public class ReviewableController {
     @Autowired
     private ReviewableService reviewableService;
 
+    @GetMapping("/search") // TODO: temp until search service is implemented
+    public Collection<ReviewableDTO> search(
+            @RequestParam(value = "q") String query,
+            @RequestParam(value = "lang", defaultValue = "en") String lang,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        return reviewableService.search(query, lang, limit, 0)
+                .stream()
+                .map(Reviewable::toDTO)
+                .toList();
+    }
+
     @GetMapping("/{id}")
     public ReviewableDTO get(@PathVariable("id") UUID id) {
         return reviewableService

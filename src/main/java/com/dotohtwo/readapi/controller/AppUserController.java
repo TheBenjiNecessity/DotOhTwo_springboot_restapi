@@ -32,6 +32,16 @@ public class AppUserController {
     @Autowired
     private AppUserService appUserService;
 
+    @GetMapping("/search") // TODO: temp until search service is implemented
+    public Collection<AppUserDTO> search(
+            @RequestParam(value = "q") String query,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        return appUserService.search(query, limit, 0)
+                .stream()
+                .map(AppUser::toDTO)
+                .toList();
+    }
+
     @GetMapping("/check")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void checkUsername(@RequestParam(value = "username") String username) {

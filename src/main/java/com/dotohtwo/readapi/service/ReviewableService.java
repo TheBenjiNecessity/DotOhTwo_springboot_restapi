@@ -30,6 +30,10 @@ public class ReviewableService {
         return reviewableRepository.findById(id).map(Reviewable::new);
     }
 
+    public Optional<Reviewable> getBySlug(String slug) {
+        return reviewableRepository.findBySlug(slug).map(Reviewable::new);
+    }
+
     public Collection<Reviewable> search(String searchText, String locale, Integer limit, Integer offset) {
         return reviewableRepository
                 .findReviewablesByTitle(searchText, locale, limit, offset)

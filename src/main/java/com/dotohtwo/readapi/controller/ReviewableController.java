@@ -39,6 +39,16 @@ public class ReviewableController {
                 .toList();
     }
 
+    @GetMapping("/slug/{slug}")
+    public ReviewableDTO getBySlug(@PathVariable("slug") String slug) {
+        return reviewableService
+                .getBySlug(slug)
+                .map(Reviewable::toDTO)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Reviewable not found with given slug: " + slug
+                ));
+    }
+
     @GetMapping("/{id}")
     public ReviewableDTO get(@PathVariable("id") UUID id) {
         return reviewableService

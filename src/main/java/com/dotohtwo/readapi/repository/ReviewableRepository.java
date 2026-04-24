@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ReviewableRepository extends JpaRepository<ReviewableDAO, UUID> {
+    Optional<ReviewableDAO> findBySlug(String slug);
+
     @Query(
         value = """
             SELECT r.*

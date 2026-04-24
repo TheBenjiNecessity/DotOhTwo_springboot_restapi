@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.dotohtwo.readapi.kafka.KafkaProducerService;
+import com.dotohtwo.readapi.kafka.UserFollowedEvent;
 import com.dotohtwo.readapi.model.AppUser;
 import com.dotohtwo.readapi.repository.AppUserRepository;
 import com.dotohtwo.readapi.repository.FollowRepository;
@@ -99,6 +100,7 @@ public class AppUserService {
         follow.id = followId;
 
         followRepository.save(follow);
+        kafkaProducerService.publish("users.followed", new UserFollowedEvent(followerId, followedId));
     }
 
     public List<String> getFollowers(UUID userId) {

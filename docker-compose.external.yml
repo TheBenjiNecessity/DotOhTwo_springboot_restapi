@@ -1,16 +1,20 @@
 services:
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    environment:
-      ENVIRONMENT: docker,nosec
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/dotohtwo
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    app:
+        build: .
+        ports:
+            - "8080:8080"
+        environment:
+            ENVIRONMENT: docker,nosec
+            SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/dotohtwo
+            SPRING_DATASOURCE_USERNAME: postgres
+            SPRING_DATASOURCE_PASSWORD: postgres
+            SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+        networks:
+            default:
+                aliases:
+                    - user-reviewable-api
 
 networks:
-  default:
-    name: dotohtwolocalinfra
-    external: true
+    default:
+        name: dotohtwolocalinfra
+        external: true

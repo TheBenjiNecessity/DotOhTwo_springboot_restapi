@@ -28,7 +28,7 @@ public class ReviewableController {
     @Autowired
     private ReviewableService reviewableService;
 
-    @GetMapping("/search") // TODO: temp until search service is implemented
+    @GetMapping
     public Collection<ReviewableDTO> search(
             @RequestParam(value = "q") String query,
             @RequestParam(value = "lang", defaultValue = "en") String lang,

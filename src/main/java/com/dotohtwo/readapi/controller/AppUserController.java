@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import java.util.UUID;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,16 +31,6 @@ public class AppUserController {
     @Autowired
     private AppUserService appUserService;
 
-    @GetMapping("/search") // TODO: temp until search service is implemented
-    public Collection<AppUserDTO> search(
-            @RequestParam(value = "q") String query,
-            @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
-        return appUserService.search(query, limit, 0)
-                .stream()
-                .map(AppUser::toDTO)
-                .toList();
-    }
-
     @GetMapping("/check")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void checkUsername(@RequestParam(value = "username") String username) {
@@ -51,15 +40,13 @@ public class AppUserController {
     }
 
     @GetMapping
-    public AppUserDTO get(@RequestParam(value = "username") String username) {
-        // potentially unsafe endpoint as any user could access this with an access token
-        // maybe I could just not make this api publicly available
-        return appUserService
-                .getByUsername(username)
+    public Collection<AppUserDTO> search(
+            @RequestParam(value = "q") String query,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        return appUserService.search(query, limit, 0)
+                .stream()
                 .map(AppUser::toDTO)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
-                ));
+                .toList();
     }
 
     @GetMapping("/me")
@@ -73,13 +60,13 @@ public class AppUserController {
                 ));
     }
 
-    @GetMapping("/{id}")
-    public AppUserDTO getUserById(@PathVariable("id") UUID id) {
+    @GetMapping("/{username}")
+    public AppUserDTO getUserByUsername(@PathVariable("username") String username) {
         return appUserService
-                .get(id)
+                .getByUsername(username)
                 .map(AppUser::toDTO)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "AppUser not found with given id: " + id
+                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
                 ));
     }
 
@@ -110,20 +97,35 @@ public class AppUserController {
         return appUserService.update(appUser.toDAO()).toDTO();
     }
 
-    @PostMapping("/{id}/follow")
+    @PostMapping("/{username}/follow")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void follow(@AuthenticationPrincipal Jwt jwt, @PathVariable("id") UUID id) {
-        appUserService.follow(jwt.getClaim("name"), id);
+    public void follow(@AuthenticationPrincipal Jwt jwt, @PathVariable("username") String username) {
+        AppUser appUser = appUserService
+                .getByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
+                ));
+        appUserService.follow(jwt.getClaim("name"), appUser.getId());
     }
 
-    @GetMapping("/{id}/followers")
-    public List<String> getFollowers(@PathVariable("id") UUID id) {
-        return appUserService.getFollowers(id);
+    @GetMapping("/{username}/followers")
+    public List<String> getFollowers(@PathVariable("username") String username) {
+        AppUser appUser = appUserService
+                .getByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
+                ));
+        return appUserService.getFollowers(appUser.getId());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") UUID id) {
-        appUserService.delete(id);
+    public void delete(@PathVariable("username") String username) {
+        AppUser appUser = appUserService
+                .getByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
+                ));
+        appUserService.delete(appUser.getId());
     }
 }

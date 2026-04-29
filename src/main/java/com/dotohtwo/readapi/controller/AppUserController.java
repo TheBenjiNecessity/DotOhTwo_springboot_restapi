@@ -108,6 +108,17 @@ public class AppUserController {
         appUserService.follow(jwt.getClaim("name"), appUser.getId());
     }
 
+    @DeleteMapping("/{username}/follow")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unfollow(@AuthenticationPrincipal Jwt jwt, @PathVariable("username") String username) {
+        AppUser appUser = appUserService
+                .getByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + username
+                ));
+        appUserService.unfollow(jwt.getClaim("name"), appUser.getId());
+    }
+
     @GetMapping("/{username}/followers")
     public List<String> getFollowers(@PathVariable("username") String username) {
         AppUser appUser = appUserService

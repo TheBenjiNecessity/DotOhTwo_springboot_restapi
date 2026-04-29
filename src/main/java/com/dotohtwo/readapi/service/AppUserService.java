@@ -103,6 +103,26 @@ public class AppUserService {
         kafkaProducerService.publish("users.followed", new UserFollowedEvent(followerId, followedId));
     }
 
+    public void unfollow(String followerUsername, UUID followedId) {
+        UUID followerId = appUserRepository.findByUsername(followerUsername)
+                .map(u -> u.id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "AppUser not found with given username: " + followerUsername
+                ));
+
+        FollowId followId = new FollowId();
+        followId.followerId = followerId;
+        followId.followedId = followedId;
+
+        if (!followRepository.existsById(followId)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Follow relationship does not exist"
+            );
+        }
+
+        followRepository.deleteById(followId);
+    }
+
     public List<String> getFollowers(UUID userId) {
         return followRepository.findFollowerUsernamesByUserId(userId);
     }

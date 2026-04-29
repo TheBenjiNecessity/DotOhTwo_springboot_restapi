@@ -1,0 +1,5 @@
+services:
+    app:
+        environment:
+            SPRING_PROFILES_ACTIVE: docker,local
+            JWT_LOCAL_SECRET: local-dev-secret-key-minimum-32-bytes!!

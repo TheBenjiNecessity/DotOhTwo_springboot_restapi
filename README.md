@@ -28,15 +28,42 @@ Connects to a separately running infra project on the `dotohtwolocalinfra` Docke
 docker compose -f docker-compose.external.yml up --build
 ```
 
+Add `-f docker-compose.local-jwt.yml` to enable local JWT mode (see [Local JWT Testing](#local-jwt-testing) below).
+
 ## Spring Profiles
 
 | Profile | Description |
 |---------|-------------|
 | `local` | Local Postgres on `localhost` |
 | `docker` | Docker network hostnames (`postgres`, `kafka`, etc.) |
-| `nosec` | Disables JWT authentication (for local development) |
+| `nosec` | Disables JWT authentication entirely |
 | `dev` | AWS RDS Postgres (development environment) |
 | `prod` | Production configuration |
+
+## Local JWT Testing
+
+By default, the API validates JWTs against AWS Cognito. The `local` profile switches to a symmetric HS256 secret so you can generate your own tokens without an auth service — useful for a local testing frontend.
+
+```bash
+./mvnw package -DskipTests
+docker compose -f docker-compose.external.yml -f docker-compose.local-jwt.yml up --build
+```
+
+To generate a token (e.g. in a Next.js app), use the [`jose`](https://github.com/panva/jose) package with the same secret:
+
+```typescript
+import { SignJWT } from 'jose'
+
+const SECRET = new TextEncoder().encode('local-dev-secret-key-minimum-32-bytes!!')
+
+const token = await new SignJWT({ sub: 'testuser' })
+  .setProtectedHeader({ alg: 'HS256' })
+  .setIssuedAt()
+  .setExpirationTime('8h')
+  .sign(SECRET)
+```
+
+The secret is set via the `JWT_LOCAL_SECRET` env var in `docker-compose.local-jwt.yml`. Change it there and in your frontend if you want a different value.
 
 ## API Endpoints
 

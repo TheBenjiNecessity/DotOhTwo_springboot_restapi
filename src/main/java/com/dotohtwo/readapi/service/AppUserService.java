@@ -60,7 +60,7 @@ public class AppUserService {
         AppUserDAO daoUser = appUserRepository.findByUsername(username).map(appUser -> {
             appUser.DOB = user.DOB;
             appUser.email = user.email;
-            appUser.phone = user.phone;
+            appUser.phone = (user.phone == null || user.phone.isBlank()) ? null : user.phone;
             appUser.roles = user.roles;
             appUser.isComplete = user.isComplete;
             appUser.content = user.content;

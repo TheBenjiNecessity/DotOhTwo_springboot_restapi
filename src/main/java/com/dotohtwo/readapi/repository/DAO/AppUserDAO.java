@@ -28,7 +28,7 @@ public class AppUserDAO {
     @Column(unique = true)
     public String email;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = true)
     public String phone;
 
     public Date DOB;
@@ -56,7 +56,7 @@ public class AppUserDAO {
 
     public AppUserDAO(AppUserDTO appUserDTO) {
         this.email = appUserDTO.email;
-        this.phone = appUserDTO.phone;
+        this.phone = (appUserDTO.phone == null || appUserDTO.phone.isBlank()) ? null : appUserDTO.phone;
         this.DOB = appUserDTO.DOB;
         this.username = appUserDTO.username;
         this.content = appUserDTO.content;

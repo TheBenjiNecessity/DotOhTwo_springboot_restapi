@@ -93,7 +93,7 @@ public class AppUser implements Serializable {
     public AppUserDAO toDAO() {
         AppUserDAO appUserDAO = new AppUserDAO();
         appUserDAO.email = this.email;
-        appUserDAO.phone = this.phone;
+        appUserDAO.phone = (this.phone == null || this.phone.isBlank()) ? null : this.phone;
         appUserDAO.DOB = this.DOB;
         appUserDAO.username = this.username;
         appUserDAO.isComplete = this.isComplete;

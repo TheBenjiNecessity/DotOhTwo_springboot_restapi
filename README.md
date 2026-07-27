@@ -10,11 +10,23 @@ Spring Boot REST API for DotOhTwo.
 
 ## Running Locally
 
+A `Makefile` is included to simplify the commands below. Run `make` targets from the project root:
+
+| Target                 | Description                                             |
+| ----------------------- | -------------------------------------------------------- |
+| `make up`               | Option 1: fully local (self-contained)                   |
+| `make up-external`      | Option 2: external infrastructure                        |
+| `make up-external-jwt`  | Option 2 with local JWT mode enabled                      |
+| `make down` / `down-external` / `down-external-jwt` | Tear down the corresponding stack       |
+| `make logs`             | Tail logs for the currently running stack                |
+
 ### Option 1: Fully local (self-contained)
 
 Starts the app alongside its own Postgres and Kafka containers.
 
 ```bash
+make up
+# equivalent to:
 ./mvnw package -DskipTests
 docker compose up --build
 ```
@@ -24,11 +36,13 @@ docker compose up --build
 Connects to a separately running infra project on the `dotohtwolocalinfra` Docker network (Postgres, Kafka, Redis, Cassandra).
 
 ```bash
+make up-external
+# equivalent to:
 ./mvnw package -DskipTests
 docker compose -f docker-compose.external.yml up --build
 ```
 
-Add `-f docker-compose.local-jwt.yml` to enable local JWT mode (see [Local JWT Testing](#local-jwt-testing) below).
+Use `make up-external-jwt` to also enable local JWT mode (see [Local JWT Testing](#local-jwt-testing) below).
 
 ## Spring Profiles
 
@@ -45,6 +59,8 @@ Add `-f docker-compose.local-jwt.yml` to enable local JWT mode (see [Local JWT T
 By default, the API validates JWTs against AWS Cognito. The `local` profile switches to a symmetric HS256 secret so you can generate your own tokens without an auth service — useful for a local testing frontend.
 
 ```bash
+make up-external-jwt
+# equivalent to:
 ./mvnw package -DskipTests
 docker compose -f docker-compose.external.yml -f docker-compose.local-jwt.yml up --build
 ```
